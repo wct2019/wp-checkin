@@ -13,7 +13,12 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 
 // Do post request.
 //$app->post('/validator', [Validator::class, 'handlePostRequest']);
-//$app->post('/validator/{version}', [ Validator::class, 'handlePostRequest']);
+$app->get('/ticket/{ticket_id}', function( Request $request, Response $response, array $args ) {
+	// Render ticket view.
+	return $this->renderer->render( $response, 'ticket.phtml', [
+		'ticket_id' => $args['ticket_id']
+	] );
+} );
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {
