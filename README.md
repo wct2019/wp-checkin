@@ -50,6 +50,7 @@ Firebaseとの連携のため、認証ファイルが必要です。 `wordcampto
 
 - [2019.tokyo.wp-checkin.com](https://2019.tokyo.wp-checkin.com) です。
 - Basic認証がかかっています。
+- masterブランチにコミットすると、勝手にデプロイされます。
 
 ## ライセンス
 
