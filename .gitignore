@@ -2,3 +2,4 @@
 /*firebase-key.json
 /node_modules/
 /logs/*.log
+/public/.well-known
