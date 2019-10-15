@@ -11,9 +11,13 @@
     ],
     "minimum-stability": "stable",
     "require": {
+        "php": "^7.0",
         "slim/slim": "^3.12",
         "slim/php-view": "^2.2",
-        "monolog/monolog": "^1.25"
+        "monolog/monolog": "^1.25",
+        "hametuha/singleton-pattern": "^1.1",
+        "kreait/firebase-php": "^4.34",
+        "google/cloud-firestore": "^1.9"
     },
     "autoload": {
         "psr-0": {
