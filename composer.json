@@ -1,0 +1,29 @@
+{
+    "name": "wct2019/wp-checkin",
+    "description": "A Web form for WordCamp Tokyo 2019 reception.",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "guy@hametuha.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "slim/slim": "^3.12",
+        "slim/php-view": "^2.2",
+        "monolog/monolog": "^1.25"
+    },
+    "autoload": {
+        "psr-0": {
+            "WCTokyo\\WpCheckin": "src"
+        }
+    },
+    "config": {
+        "process-timeout": 0
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public index.php"
+    }
+}

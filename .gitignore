@@ -1,0 +1,4 @@
+/vendor/
+/*firebase-key.json
+/node_modules/
+/logs/*.log
