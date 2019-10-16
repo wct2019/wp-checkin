@@ -23,9 +23,6 @@ class FireBase extends Singleton {
 	 * @throws \Exception
 	 */
 	public function setCredentials( $setting_file_path, $uri ) {
-		if ( ! file_exists( $setting_file_path ) ) {
-			throw new \Exception( '認証ファイルが存在しません。', 500 );
-		}
 		$this->credential_file_path = $setting_file_path;
 		$this->database_url         = $uri;
 	}
