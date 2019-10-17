@@ -58,16 +58,7 @@ class TicketApi extends Singleton {
 	public function handle_get( Request $request, Response $response, array $args ) {
 		$document = $this->get_document( $args['ticket_id'] );
 		if ( $document ) {
-			// TODO: スタッフなどに渡すものが判別できない。
-			$document['items'] = [
-				'パンフレット',
-				'ストラップ',
-				'ギグバンド' . ( $document['u20'] ? '（緑）' : '（黄色）' ),
-				'ナップサック',
-			];
-			if ( false !== strpos( $document['category'], 'スポンサー' ) ) {
-				$document['items'][] = 'Tシャツ（グレイ）';
-			}
+			$document = $this->add_items( $document );
 			return $response->withJson( $document );
 		} else {
 			return $response->withJson( null, 404 );
@@ -93,7 +84,7 @@ class TicketApi extends Singleton {
 					'value' => date( 'Y-m-d H:i:s' ),
 				],
 			] );
-			return $response->withJson( $this->convert_to_array( $document->snapshot() ) );
+			return $response->withJson( $this->add_items( $this->convert_to_array( $document->snapshot() ) ) );
 		} catch ( \Exception $e ) {
 			return $response->withJson( [
 				'message' => $e->getMessage(),
@@ -167,6 +158,45 @@ class TicketApi extends Singleton {
 	public function convert_to_array( $document ) {
 		$data = $document->data();
 		$data['id'] = $document->id();
+		// Add role.
+		$role = '一般参加';
+		foreach ( [
+			'wct-sponsor-2019' => 'スポンサー',
+			'wct-staff-2019'   => 'スタッフ',
+			'wct-speaker-2019' => 'スピーカー',
+		] as $coupon => $label ) {
+			if ( false !== strpos( $data['coupon'], $coupon ) ) {
+				$role = $label;
+				break;
+			}
+		}
+		if ( false !== strpos( $data['category'], 'マイクロスポンサー' ) ) {
+			 $role = 'マイクロスポンサー';
+		}
+		$data['role'] = $role;
 		return $data;
+	}
+	
+	/**
+	 * Convert array
+	 *
+	 * @param array $document
+	 *
+	 * @return array
+	 */
+	public function add_items( $document ) {
+		$document['items'] = [
+			'パンフレット',
+			'ストラップ',
+			'ギグバンド' . ( $document['u20'] ? '（緑）' : '（黄色）' ),
+			'ナップサック',
+		];
+		if ( false !== strpos( $document['role'], 'スポンサー' ) ) {
+			$document['items'][] = 'Tシャツ（グレイ）';
+		}
+		if ( false !== strpos( $document['role'], 'スピーカー' ) ) {
+			$document['items'][] = 'Tシャツ（緑）';
+		}
+		return $document;
 	}
 }
