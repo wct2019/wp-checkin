@@ -58,6 +58,16 @@ class TicketApi extends Singleton {
 	public function handle_get( Request $request, Response $response, array $args ) {
 		$document = $this->get_document( $args['ticket_id'] );
 		if ( $document ) {
+			// TODO: スタッフなどに渡すものが判別できない。
+			$document['items'] = [
+				'パンフレット',
+				'ストラップ',
+				'ギグバンド' . ( $document['u20'] ? '（緑）' : '（黄色）' ),
+				'ナップサック',
+			];
+			if ( false !== strpos( $document['category'], 'スポンサー' ) ) {
+				$document['items'][] = 'Tシャツ（グレイ）';
+			}
 			return $response->withJson( $document );
 		} else {
 			return $response->withJson( null, 404 );
