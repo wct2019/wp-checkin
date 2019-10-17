@@ -132,6 +132,10 @@ export class Ticket extends Component {
                   <td>{ticket.familyname} {ticket.givenname}</td>
                 </tr>
                 <tr>
+                  <th>種別</th>
+                  <td>{ticket.role}</td>
+                </tr>
+                <tr>
                   <th>メール</th>
                   <td>{ticket.email}</td>
                 </tr>

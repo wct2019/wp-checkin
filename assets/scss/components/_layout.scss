@@ -3,3 +3,37 @@
   padding-bottom: 40px;
   min-height: 400px;
 }
+
+.search-result{
+  @media only screen and ( max-width: 960px ) {
+    thead{
+      display: none;
+    }
+    tbody{
+      display: block;
+    }
+    tr{
+      display: block;
+      border-bottom: 1px solid #ddd;
+      &:after{
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+      }
+    }
+    th, td{
+      border: none;
+    }
+    th{
+      display: block;
+    }
+    td{
+      display: inline-block;
+      float: left;
+      &:last-child{
+        float: right;
+      }
+    }
+  }
+}
