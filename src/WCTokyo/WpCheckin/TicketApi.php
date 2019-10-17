@@ -165,7 +165,7 @@ class TicketApi extends Singleton {
 			'wct-staff-2019'   => 'スタッフ',
 			'wct-speaker-2019' => 'スピーカー',
 		] as $coupon => $label ) {
-			if ( false !== strpos( $data['coupon'], $coupon ) ) {
+			if ( isset( $data['coupon'] ) && false !== strpos( $data['coupon'], $coupon ) ) {
 				$role = $label;
 				break;
 			}

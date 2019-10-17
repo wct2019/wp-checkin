@@ -65,6 +65,7 @@ export class SearchForm extends Component {
               <tr>
                 <th>#</th>
                 <th>名前</th>
+                <th>種別</th>
                 <th>メール</th>
                 <th>アクション</th>
               </tr>
@@ -75,6 +76,7 @@ export class SearchForm extends Component {
                   <tr ref={ ticket.id }>
                     <th>{ticket.id}</th>
                     <td>{ticket.familyname} {ticket.givenname}</td>
+                    <td>{ticket.role}</td>
                     <td>{ticket.email}</td>
                     <td>
                       <button className='btn btn-primary' onClick={ e => this.setState( { active: ticket.id} ) }>表示</button>
