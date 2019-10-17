@@ -2,6 +2,7 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use WCTokyo\WpCheckin\TicketApi;
 
 // Home.
 $app->get('/', function (Request $request, Response $response, array $args) {
@@ -11,14 +12,19 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     ]);
 });
 
-// Do post request.
-//$app->post('/validator', [Validator::class, 'handlePostRequest']);
+// Do ticket request.
 $app->get('/ticket/{ticket_id}', function( Request $request, Response $response, array $args ) {
 	// Render ticket view.
 	return $this->renderer->render( $response, 'ticket.phtml', [
-		'ticket_id' => $args['ticket_id']
+		'ticket_id' => $args['ticket_id'],
 	] );
 } );
+
+$app->get( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_get' ] );
+$app->post( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_post' ] );
+$app->delete( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_delete' ] );
+
+
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {

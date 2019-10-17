@@ -1,5 +1,19 @@
 {
+	"env": {
+		"es6": true,
+		"browser": true
+	},
 	"globals": {
 		"jQuery": false
-	}
+	},
+	"parserOptions": {
+		"ecmaFeatures": {
+			"modules": true,
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"plugins": [
+		"react"
+	]
 }

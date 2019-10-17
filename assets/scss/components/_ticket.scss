@@ -1,0 +1,38 @@
+.ticket{
+
+  &-wrapper{
+    position: relative;
+    max-width: 600px;
+    margin: 40px auto;
+  }
+
+  &-checked{
+    margin-top: 40px;
+    &-title{
+      position: relative;
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      &:after{
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100px;
+        height: 5px;
+        left: 50%;
+        bottom: 10px;
+        transform: translateX( -50% );
+      }
+    }
+    &-list{
+      font-size: 18px;
+      li{
+        margin: 10px 0;
+      }
+    }
+  }
+
+}

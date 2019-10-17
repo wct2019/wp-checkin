@@ -65,7 +65,7 @@ gulp.task('js:bundle', function () {
 		.pipe(rename(function (path) {
 			tmp[path.basename] = path.dirname;
 		}))
-		.pipe(webpackStream(require('./webpack.config.js'), webpack))
+		.pipe( webpackStream( webpackConfig, webpack) )
 		.pipe(rename(function (path) {
 			if (tmp[path.basename]) {
 				path.dirname = tmp[path.basename];
