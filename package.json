@@ -26,6 +26,7 @@
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.5.4",
     "@wordpress/eslint-plugin": "^3.0.0",
     "autoprefixer": "^9.6.1",
@@ -33,6 +34,7 @@
     "babel-loader": "^8.0.5",
     "classnames": "^2.2.6",
     "eslint": "^6.0.1",
+    "eslint-plugin-react": "^7.16.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "gulp-imagemin": "^6.1.1",

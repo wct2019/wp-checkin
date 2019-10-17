@@ -1,6 +1,6 @@
 </div><!-- //.container -->
 
-<footer class="navbar fixed-bottom navbar-light bg-light">
+<footer class="navbar navbar-light bg-light">
 	<div class="container d-block">
 		<p class="text-center">
 			<a href="https://github.com/wct2019/wp-checkin"><i class="fab fa-github"></i></a>
