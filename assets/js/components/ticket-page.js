@@ -171,8 +171,9 @@ export class Ticket extends Component {
                 <hr />
                 <h3 className='ticket-checked-title'>お渡しするもの</h3>
                 <ol className='ticket-checked-list'>
-                  <li>リストバンド </li>
-                  <li>パンフレット</li>
+                  { ticket.items.map( ( item, index ) => {
+                    return <li>{item}</li>
+                  } ) }
                 </ol>
               </div>
             ) : null }
@@ -183,5 +184,4 @@ export class Ticket extends Component {
       </div>
     );
   }
-
 }
