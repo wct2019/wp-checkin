@@ -12,6 +12,6 @@ if ( form ) {
 }
 
 const ticketWrapper = document.getElementById( 'ticket' );
-if ( ticket ) {
-  render( <Ticket id={ ticket.dataset.ticketId } />, ticketWrapper );
+if ( ticketWrapper ) {
+  render( <Ticket id={ ticketWrapper.dataset.ticketId } />, ticketWrapper );
 }

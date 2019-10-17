@@ -6,6 +6,7 @@ import React from 'react';
 import { Component } from 'react';
 import classNames from 'classnames';
 import { fetchApi } from "./helper";
+import { LoadingIndicator } from "./loading";
 
 export class Ticket extends Component {
 
@@ -120,10 +121,7 @@ export class Ticket extends Component {
     return (
       <div className={ classes }>
         { this.state.loading ? (
-          <div className="alert alert-light text-center" role="alert">
-            <p><i className='fas fa-spinner text-dark fa-spin' style={ { 'font-size': '80px' } }></i></p>
-            <p className='mb-0'>読み込み中……</p>
-          </div>
+          <LoadingIndicator loading={ this.state.loading } />
         ) : ( this.state.ticket ? (
           <>
             <table className='table'>

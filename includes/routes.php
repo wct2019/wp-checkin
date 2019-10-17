@@ -12,6 +12,9 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     ]);
 });
 
+// Search Endpoint
+$app->get( '/search', [ TicketApi::get_instance(), 'handle_search' ] );
+
 // Do ticket request.
 $app->get('/ticket/{ticket_id}', function( Request $request, Response $response, array $args ) {
 	// Render ticket view.
@@ -19,12 +22,10 @@ $app->get('/ticket/{ticket_id}', function( Request $request, Response $response,
 		'ticket_id' => $args['ticket_id'],
 	] );
 } );
-
+// Ticket detail endpoint.
 $app->get( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_get' ] );
 $app->post( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_post' ] );
 $app->delete( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_delete' ] );
-
-
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {

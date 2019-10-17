@@ -12,6 +12,42 @@ use Slim\Http\Response;
 class TicketApi extends Singleton {
 	
 	/**
+	 * Search ticket.
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param array $args
+	 * @return Response
+	 */
+	public function handle_search( Request $request, Response $response, array $args ) {
+		try {
+			$query = $request->getQueryParam( 's' );
+			if ( ! $query ) {
+				throw new \Exception( '検索キーワードが指定されていません。', 404 );
+			}
+			$result = [];
+			$tickets = FireBase::get_instance()
+							   ->db()
+							   ->collection( 'Tickets' )
+							   ->documents();
+			foreach ( $tickets as $ticket ) {
+				/** @var DocumentSnapshot $ticket */
+				if ( ! $ticket->exists() ) {
+					continue;
+				}
+				$data  = $this->convert_to_array( $ticket );
+				$string = implode( ' ', $data );
+				if ( false !== strpos( $string, $query ) ) {
+					$result[] = $data;
+				}
+			}
+			return $response->withJson( $result );
+		} catch ( \Exception $e ) {
+			return $response->withJson( [], 404 );
+		}
+	}
+	
+	/**
 	 * Returns JSON.
 	 *
 	 * @param Request $request

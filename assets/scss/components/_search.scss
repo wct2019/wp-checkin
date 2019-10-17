@@ -1,0 +1,33 @@
+.backdrop{
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: rgba( 0, 0, 0, .7);
+  z-index: 10;
+
+  &-inner{
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba( 0, 0, 0, .8 );
+    width: 800px;
+    margin: 0 auto;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    padding-top: 20px;
+    h3{
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  &-close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}
