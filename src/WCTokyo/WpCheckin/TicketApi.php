@@ -10,7 +10,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 class TicketApi extends Singleton {
-	
+
 	/**
 	 * Search ticket.
 	 *
