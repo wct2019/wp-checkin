@@ -25,6 +25,7 @@ class TicketApi extends Singleton {
 			if ( ! $query ) {
 				throw new \Exception( '検索キーワードが指定されていません。', 404 );
 			}
+			$query = explode( ' ', str_replace( '　', ' ', $query ) );
 			$result = [];
 			$tickets = FireBase::get_instance()
 							   ->db()
@@ -36,10 +37,13 @@ class TicketApi extends Singleton {
 					continue;
 				}
 				$data  = $this->convert_to_array( $ticket );
-				$string = implode( ' ', $data );
-				if ( false !== strpos( $string, $query ) ) {
-					$result[] = $data;
+				$string = implode( '', $data );
+				foreach ( $query as $q ) {
+					if ( false === strpos( $string, $q ) ) {
+						continue 2;
+					}
 				}
+				$result[] = $data;
 			}
 			return $response->withJson( $result );
 		} catch ( \Exception $e ) {
@@ -71,6 +75,7 @@ class TicketApi extends Singleton {
 	 * @param Request $request
 	 * @param Response $response
 	 * @param array $args
+	 * @return Response
 	 */
 	public function handle_post( Request $request, Response $response, array $args ) {
 		try {
@@ -98,6 +103,7 @@ class TicketApi extends Singleton {
 	 * @param Request $request
 	 * @param Response $response
 	 * @param array $args
+	 * @return Response
 	 */
 	public function handle_delete( Request $request, Response $response, array $args ) {
 		try {
@@ -174,7 +180,17 @@ class TicketApi extends Singleton {
 			 $role = 'マイクロスポンサー';
 		}
 		$data['role'] = $role;
-		return $data;
+		$sorted       = [
+			'familyname' => $data['familyname'],
+			'givenname'  => $data['givenname'],
+		];
+		foreach ( $data as $key => $val ) {
+			if ( in_array( $key, [ 'familyname', 'givenname' ] ) ) {
+				continue;
+			}
+			$sorted[ $key ] = $val;
+		}
+		return $sorted;
 	}
 	
 	/**
