@@ -30,22 +30,16 @@ $app->delete( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle
 // QR code
 $app->get( '/qr/{ticket_id}', function(Request $request, Response $response, array $args) {
 	// Render QR view.
-	$url = 'https://chart.apis.google.com/chart?';
 	$alt = sprintf( 'https://2019.tokyo.wp-checkin.com/ticket/%d', $args['ticket_id'] );
-	$queries = [];
-	foreach ( [
-		'cht' => 'qr',
-		'chs' => '300x300',
-		'chl' => $alt,
-	] as $key => $val ) {
-		$queries[] = sprintf( '%s=%s', $key, rawurlencode( $val ) );
-	}
-	$url .= implode( '&amp;', $queries );
+	$url = TicketApi::get_instance()->generate_qr( $alt );
 	return $this->renderer->render($response, 'qr.phtml', [
 		'url' => $url,
 		'alt' => $alt,
 	]);
 } );
+
+// Do QR request.
+$app->get( '/qrcode', [ TicketApi::get_instance(), 'handle_qr' ] );
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {

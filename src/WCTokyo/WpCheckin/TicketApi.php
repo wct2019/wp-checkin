@@ -26,29 +26,90 @@ class TicketApi extends Singleton {
 				throw new \Exception( '検索キーワードが指定されていません。', 404 );
 			}
 			$query = explode( ' ', str_replace( '　', ' ', $query ) );
-			$result = [];
-			$tickets = FireBase::get_instance()
-							   ->db()
-							   ->collection( 'Tickets' )
-							   ->documents();
-			foreach ( $tickets as $ticket ) {
-				/** @var DocumentSnapshot $ticket */
-				if ( ! $ticket->exists() ) {
-					continue;
-				}
-				$data  = $this->convert_to_array( $ticket );
-				$string = implode( '', $data );
-				foreach ( $query as $q ) {
-					if ( false === strpos( $string, $q ) ) {
-						continue 2;
-					}
-				}
-				$result[] = $data;
-			}
+			$result = $this->search( $query );
 			return $response->withJson( $result );
 		} catch ( \Exception $e ) {
 			return $response->withJson( [], 404 );
 		}
+	}
+	
+	public function handle_qr( Request $request, Response $response, array $args ) {
+		try {
+			$queries = [];
+			foreach ( [ 'f', 'g', 'e' ] as $key ) {
+				if ( $param = $request->getQueryParam( $key ) ) {
+					$queries[] = $param;
+				}
+			}
+			if ( ! $queries ) {
+				throw new \Exception( 'No queries set.' );
+			}
+			$result = $this->search( $queries );
+			if ( 1 !== count( $result) ) {
+				throw new \Exception( 'Not found.' );
+			}
+			list( $data ) = $result;
+			$url = sprintf( 'https://2019.tokyo.wp-checkin.com/ticket/%d', $data['id'] );
+		} catch ( \Exception $e ) {
+			$url = 'https://2019.tokyo.wp-checkin.com';
+		} finally {
+			$src = str_replace( '&amp;', '&', $this->generate_qr( $url ) );
+			$content = file_get_contents( $src );
+			header( 'Content-Type: image/png' );
+			echo $content;
+			exit;
+		}
+	}
+	
+	/**
+	 * Generate image url of qr code.
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public function generate_qr( $text ) {
+		$url = 'https://chart.apis.google.com/chart?';
+		$queries = [];
+		foreach ( [
+			'cht' => 'qr',
+			'chs' => '300x300',
+			'chl' => $text,
+		] as $key => $val ) {
+			$queries[] = sprintf( '%s=%s', $key, rawurlencode( $val ) );
+		}
+		$url .= implode( '&amp;', $queries );
+		return $url;
+	}
+	
+	/**
+	 * Search tickets.
+	 *
+	 * @param string[] $query
+	 *
+	 * @return array[]
+	 */
+	private function search( $query ) {
+		$result = [];
+		$tickets = FireBase::get_instance()
+						   ->db()
+						   ->collection( 'Tickets' )
+						   ->documents();
+		foreach ( $tickets as $ticket ) {
+			/** @var DocumentSnapshot $ticket */
+			if ( ! $ticket->exists() ) {
+				continue;
+			}
+			$data  = $this->convert_to_array( $ticket );
+			$string = implode( '', $data );
+			foreach ( $query as $q ) {
+				if ( false === strpos( $string, $q ) ) {
+					continue 2;
+				}
+			}
+			$result[] = $data;
+		}
+		return $result;
 	}
 	
 	/**
