@@ -269,11 +269,18 @@ class TicketApi extends Singleton {
 			'ナップサック',
 		];
 		if ( false !== strpos( $document['role'], 'スポンサー' ) ) {
-			$document['items'][] = 'Tシャツ（グレイ）';
+			$tshirt = 'Tシャツ（グレイ）';
+			if ( ! empty( $document['tshirtsize'] ) ) {
+				$tshirt .= ' - ' . $document['tshirtsize'];
+			} else {
+				$tshirt .= ' - 要サイズ確認';
+			}
+			$document['items'][] = $tshirt;
 		}
 		if ( false !== strpos( $document['role'], 'スピーカー' ) ) {
-			$document['items'][] = 'Tシャツ（緑）';
+			$document['items'][] = 'Tシャツ（緑） - 要サイズ確認';
 		}
+		
 		return $document;
 	}
 }
