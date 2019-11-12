@@ -1,0 +1,20 @@
+<?php include __DIR__ . '/header.php' ?>
+	
+	<header class="page-header">
+		<h1 class="page-header-title">チケット統計データ</h1>
+		<p class="lead">チケットの統計データをWordCampのCSVから生成します。</p>
+	</header>
+
+	<hr />
+
+	<form class="" action="/stats" method="post" enctype="multipart/form-data">
+		<div class="custom-file">
+			<input type="file" class="custom-file-input" id="stat-csv" name="stat-csv">
+			<label class="custom-file-label" for="stat-csv">CSVを選択</label>
+		</div>
+		<p class="text-center mt-3">
+			<input class="btn btn-lg btn-outline-primary" type="submit" value="送信" />
+		</p>
+	</form>
+
+<?php include __DIR__ . '/footer.php';

@@ -8,6 +8,7 @@ use Google\Cloud\Firestore\DocumentSnapshot;
 use Hametuha\SingletonPattern\Singleton;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Http\UploadedFile;
 
 class TicketApi extends Singleton {
 
@@ -33,6 +34,13 @@ class TicketApi extends Singleton {
 		}
 	}
 	
+	/**
+	 * Handle CSV request.
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param array $args
+	 */
 	public function handle_qr( Request $request, Response $response, array $args ) {
 		try {
 			$queries = [];
@@ -183,6 +191,117 @@ class TicketApi extends Singleton {
 			return $response->withJson( [
 				'message' => $e->getMessage(),
 			], $e->getCode() );
+		}
+	}
+	
+	/**
+	 * Handle CSV request.
+	 *
+	 * @param Request $request
+	 * @param Response $response
+	 * @param array $args
+	 * @return void|Response
+	 */
+	public function handle_csv( Request $request, Response $response, array $args ) {
+		try {
+			$uploaded_files = $request->getUploadedFiles();
+			if ( empty( $uploaded_files['stat-csv'] ) ) {
+				throw new \Exception( 'CSVファイルが指定されていません。', 400 );
+			}
+			/* @var UploadedFile $file */
+			$file = $uploaded_files['stat-csv'];
+			if ( 'text/csv' !== $file->getClientMediaType() ) {
+				throw new \Exception( 'CSVファイルの形式が不正です。', 400 );
+			}
+			// List checked in time.
+			$updated = [];
+			$tickets = FireBase::get_instance()
+				->db()
+				->collection( 'Tickets' )
+				->documents();
+			foreach ( $tickets as $ticket ) {
+				/** @var DocumentSnapshot $ticket */
+				if ( ! $ticket->exists() ) {
+					continue;
+				}
+				$data  = $this->convert_to_array( $ticket );
+				if ( ! empty( $data['checkedin'] ) ) {
+					$updated[ $data['id'] ] = $data['checkedin'];
+				}
+			}
+			// Read CSV.
+			$pointer = new \SplFileObject( $file->file );
+			$pointer->setFlags(\SplFileObject::READ_CSV);
+			$output = fopen( 'php://output', 'w' );
+			header('Content-Type: text/csv; charset=UTF-8');
+			header(sprintf( 'Content-Disposition: attachment; filename=wp-checkin-stats-%s.csv', date( 'Ymd' ) ) );
+			// Output CSV headers.
+			fputcsv( $output, [
+				'id',
+				'status',
+				'type',
+				'issued_for',
+				'bought_by',
+				'bought_at',
+				'participated',
+				'adult',
+				'checked_in_at',
+			] );
+			// Parse CSV.
+			foreach ( $pointer as $row ) {
+				// Skip first line.
+				if ( 1 > $pointer->key() || $pointer->eof() ) {
+					continue;
+				}
+				// Get data.
+				$id          = $row[0];
+				$mail        = md5( $row[4] );
+				$mail_bought = md5( $row[ 11 ] );
+				$bought_at   = $row[5];
+				$status      = $row[7];
+				$coupon      = $row[9];
+				$title       = $row[1];
+				$over_20     = $row[16];
+				$submit      = $row[20];
+				// Type of attendee.
+				if ( false !== strpos( $coupon, 'sponsor' ) ) {
+					$type = 'sponsor';
+				} else if ( false !== strpos( $coupon, 'staff' ) ) {
+					$type = 'staff';
+				} else if ( false !== strpos( $coupon, 'thanks' ) ) {
+					$type = 'thanks';
+				} elseif ( false !== strpos( $title, 'マイクロスポンサー' ) )  {
+					$type = 'sponsor';
+				} else {
+					$type = 'general';
+				}
+				$participated = ( 'Yes' === $submit || isset( $updated[ $id ] ) ) ? 1 : 0;
+				if ( isset( $updated[ $id ] ) ) {
+					$gmt = $updated[ $id ];
+					// TODO: Offset.
+					$checked_in = date( 'Y-m-d H:i:s', strtotime( $gmt ) +  60 * 60 * 9 );
+				} else {
+					$checked_in = '';
+				}
+				$is_adult = ( false !== strpos( $over_20, 'Yes' ) ) ? 1 : 0;
+				$data = [
+					$id,
+					$status,
+					$type,
+					$mail,
+					$mail_bought,
+					$bought_at,
+					$participated,
+					$is_adult,
+					$checked_in,
+				];
+				fputcsv( $output, $data );
+			}
+			exit;
+		} catch ( \Exception $e ) {
+			return $response->withStatus( $e->getCode() )
+				->withHeader( 'Content-Type', 'text/html' )
+				->write( $e->getMessage() );
 		}
 	}
 	

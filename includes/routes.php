@@ -22,6 +22,7 @@ $app->get('/ticket/{ticket_id}', function( Request $request, Response $response,
 		'ticket_id' => $args['ticket_id'],
 	] );
 } );
+
 // Ticket detail endpoint.
 $app->get( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_get' ] );
 $app->post( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle_post' ] );
@@ -40,6 +41,13 @@ $app->get( '/qr/{ticket_id}', function(Request $request, Response $response, arr
 
 // Do QR request.
 $app->get( '/qrcode', [ TicketApi::get_instance(), 'handle_qr' ] );
+
+// Tickets Stats
+$app->get('/stats', function (Request $request, Response $response, array $args) {
+	// Render index view
+	return $this->renderer->render($response, 'stats.phtml', [] );
+});
+$app->post( '/stats', [ TicketApi::get_instance(), 'handle_csv' ] );
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {
