@@ -151,6 +151,14 @@ export class Ticket extends Component {
                   <td>{ ticket.u20 ? ticket.u20 : <span className='text-danger'>いいえ</span>}</td>
                 </tr>
                 <tr>
+                  <th>アレルギー</th>
+                  <td>{ ticket.allergic ? <span className='text-danger'>{ticket.allergic}</span> : <span className='text-success'>いいえ</span>}</td>
+                </tr>
+                <tr>
+                  <th>特別なサポート</th>
+                  <td>{ ticket.support ? <span className='text-danger'>{ticket.support}</span> : <span className='text-success'>いいえ</span>}</td>
+                </tr>
+                <tr>
                   <th>チェックイン</th>
                   <td>{ ticket.checkedin ? (
                     <span>
