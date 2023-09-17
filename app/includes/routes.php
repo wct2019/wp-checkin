@@ -2,7 +2,7 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WCTokyo\WpCheckin\TicketApi;
+use src\WCTokyo\WpCheckin\TicketApi;
 
 // Home.
 $app->get('/', function (Request $request, Response $response, array $args) {

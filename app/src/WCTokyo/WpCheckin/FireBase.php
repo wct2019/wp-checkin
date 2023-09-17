@@ -1,11 +1,11 @@
 <?php
 
-namespace WCTokyo\WpCheckin;
+namespace src\WCTokyo\WpCheckin;
 
 
+use Google\Cloud\Firestore\FirestoreClient;
 use Hametuha\SingletonPattern\Singleton;
 use Kreait\Firebase\Factory;
-use Google\Cloud\Firestore\FirestoreClient;
 
 class FireBase extends Singleton {
 

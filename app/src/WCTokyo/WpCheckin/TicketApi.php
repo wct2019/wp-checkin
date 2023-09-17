@@ -1,6 +1,6 @@
 <?php
 
-namespace WCTokyo\WpCheckin;
+namespace src\WCTokyo\WpCheckin;
 
 
 use Google\Cloud\Firestore\DocumentReference;

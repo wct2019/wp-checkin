@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require( 'gulp' );
-const sass = require( 'gulp-sass' );
+const sass = require( 'gulp-dart-sass' );
 const sassGlob = require( 'gulp-sass-glob' );
 const plumber = require( 'gulp-plumber' );
 const eslint = require( 'gulp-eslint' );
@@ -18,13 +18,13 @@ const webpack = require( 'webpack' );
 const webpackStream = require( 'webpack-stream' );
 const webpackConfig = require( './webpack.config.js' );
 
-sass.compiler = require('node-sass');
+sass.compiler = require('sass');
 
 /*
  * CSS tasks
  */
-gulp.task( 'css:sass', () => gulp
-	.src( 'assets/scss/*.scss' )
+gulp.task( 'sass', () => gulp
+	.src( '../assets/scss/*.scss' )
 	.pipe( sassGlob() )
 	.pipe( plumber( {
 		errorHandler: notify.onError({
@@ -37,18 +37,18 @@ gulp.task( 'css:sass', () => gulp
 		outputStyle: 'compressed',
 	} ) )
 	.pipe( sourcemaps.write() )
-	.pipe( gulp.dest( 'public/assets/css' ) )
+	.pipe( gulp.dest( '../public/assets/css' ) )
 );
 
 gulp.task('css:autoprefix', () => gulp
-	.src('public/assets/css/*.css')
+	.src('../public/assets/css/*.css')
 	.pipe(postcss([autoprefixer]))
-	.pipe(gulp.dest('public/assets/css'))
+	.pipe(gulp.dest('../public/assets/css'))
 );
 
 // CSS Bundle task.
 gulp.task('css', gulp.series(
-	'css:sass',
+	'sass',
 	'css:autoprefix',
 ));
 
