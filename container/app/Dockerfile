@@ -30,6 +30,8 @@ RUN set -xe && \
 #------------
 FROM php:8.2-fpm-alpine AS app
 
+RUN addgroup -S nginx && adduser -S nginx -G nginx
+
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_HOME=/composer \
     TZ=Asia/Tokyo
@@ -54,3 +56,6 @@ COPY --chown=33:33 ./php.ini /usr/local/etc/php/php.ini
 
 RUN set -xe && \
     composer install
+
+EXPOSE 9000
+CMD ["php-fpm"]
