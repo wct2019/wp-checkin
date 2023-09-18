@@ -24,7 +24,6 @@ COPY --chown=33:33 ./includes /app/includes
 COPY --chown=33:33 ./public /app/public
 COPY --chown=33:33 ./src /app/src
 COPY --chown=33:33 ./templates /app/templates
-COPY --chown=33:33 ./logs /app/logs
 
 
 #------------
@@ -65,5 +64,9 @@ COPY --chown=33:33 ./container/zzz-docker.conf /usr/local/etc/php-fpm.d/zzz-dock
 
 RUN set -xe && \
     composer install
+
+RUN cd /var/log/nginx &&  \
+    touch error.log && \
+    chown -R nginx error.log
 
 CMD ["nginx", "-g", "daemon off;"]
