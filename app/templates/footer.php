@@ -8,13 +8,13 @@
 
 		<p class="text-center">
 			<span class="navbar-text">
-				&copy; 2023 <a href="https://tokyo.wordcamp.org/2023">WordCamp Tokyo 2019</a>
+				&copy; 2023 <a href="https://tokyo.wordcamp.org/2023">WordCamp Tokyo 2023</a>
 			</span>
 		</p>
 	</div>
 
 </footer>
 
-<script src="/assets/js/app.js?s=<?= filemtime( dirname( __DIR__ ) . '/public/assets/js/app.js' ) ?>"></script>
+<script src="/assets/js/app.js?s=<?= filemtime( dirname( __DIR__ ) . '/public/assets/js/app.js' ) ?>" type="application/javascript"></script>
 </body>
 </html>
