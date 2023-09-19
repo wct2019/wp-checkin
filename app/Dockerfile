@@ -28,7 +28,7 @@ RUN set -xe && \
 #------------
 # php-fpm
 #------------
-FROM php:8.2-fpm-alpine AS app
+FROM php:7.4-fpm-alpine AS app
 
 RUN addgroup -S nginx && adduser -S nginx -G nginx
 
