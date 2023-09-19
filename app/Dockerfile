@@ -1,14 +1,21 @@
 #------------
 # node
 #------------
-FROM node:lts-slim AS node
+FROM node:18-slim AS node
 
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && echo 'Asia/Tokyo' > /etc/timezone
 
-COPY --chown=33:33 ./package.json /app/
-COPY --chown=33:33 ./webpack.config.js /app/
-COPY --chown=33:33 ./gulpfile.js /app/
+#COPY --chown=33:33 ./package.json /app/
+#COPY --chown=33:33 ./webpack.config.js /app/
+#COPY --chown=33:33 ./gulpfile.js /app/
+COPY --chown=33:33 . /app
+#COPY --chown=33:33 ./app/assets /app/assets
+#COPY --chown=33:33 ./app/bin /app/bin
+#COPY --chown=33:33 ./app/includes /app/includes
+#COPY --chown=33:33 ./app/public /app/public
+#COPY --chown=33:33 ./app/src /app/src
+#COPY --chown=33:33 ./app/templates /app/templates
 
 WORKDIR /app
 
@@ -16,13 +23,6 @@ RUN set -xe && \
     npm install -g npm@10 && \
     npm install && \
     npm start
-
-#COPY --chown=33:33 ../app/assets /app/assets
-#COPY --chown=33:33 ../app/bin /app/bin
-#COPY --chown=33:33 ../app/includes /app/includes
-#COPY --chown=33:33 ../app/public /app/public
-#COPY --chown=33:33 ../app/src /app/src
-#COPY --chown=33:33 ../app/templates /app/templates
 
 
 #------------

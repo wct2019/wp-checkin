@@ -1,6 +1,6 @@
 <?php
 
-namespace src\WCTokyo\WpCheckin;
+namespace app\src\WCTokyo\WpCheckin;
 
 
 use Google\Cloud\Firestore\FirestoreClient;

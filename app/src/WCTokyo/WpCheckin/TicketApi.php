@@ -1,8 +1,9 @@
 <?php
 
-namespace src\WCTokyo\WpCheckin;
+namespace app\src\WCTokyo\WpCheckin;
 
 
+use app\src\WCTokyo\WpCheckin\FireBase;
 use Google\Cloud\Firestore\DocumentReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Hametuha\SingletonPattern\Singleton;
