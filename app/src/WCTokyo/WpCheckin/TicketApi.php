@@ -1,9 +1,9 @@
 <?php
 
-namespace app\src\WCTokyo\WpCheckin;
+namespace src\WCTokyo\WpCheckin;
 
 
-use app\src\WCTokyo\WpCheckin\FireBase;
+use src\WCTokyo\WpCheckin\FireBase;
 use Google\Cloud\Firestore\DocumentReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Hametuha\SingletonPattern\Singleton;
@@ -348,9 +348,10 @@ class TicketApi extends Singleton {
 		// Add role.
 		$role = '一般参加';
 		foreach ( [
-			'wct-sponsor-2019' => 'スポンサー',
-			'wct-staff-2019'   => 'スタッフ',
-			'wct-speaker-2019' => 'スピーカー',
+			'wct-sponsor-2023' => 'スポンサー',
+			'wct-staff-2023'   => 'スタッフ',
+            'wct-volunteer-2023' => 'ボランティア',
+			'wct-speaker-2023' => 'スピーカー',
 		] as $coupon => $label ) {
 			if ( isset( $data['coupon'] ) && false !== strpos( $data['coupon'], $coupon ) ) {
 				$role = $label;
@@ -383,22 +384,14 @@ class TicketApi extends Singleton {
 	 */
 	public function add_items( $document ) {
 		$document['items'] = [
-			'パンフレット',
-			'ストラップ',
-			'ギグバンド' . ( $document['u20'] ? '（緑）' : '（黄色）' ),
-			'ナップサック',
+			'ネームカード',
+			'トートバッグ',
 		];
 		if ( false !== strpos( $document['role'], 'スポンサー' ) ) {
-			$tshirt = 'Tシャツ（グレイ）';
-			if ( ! empty( $document['tshirtsize'] ) ) {
-				$tshirt .= ' - ' . $document['tshirtsize'];
-			} else {
-				$tshirt .= ' - 要サイズ確認';
-			}
-			$document['items'][] = $tshirt;
+			$document['items'][] = 'タンブラー';
 		}
 		if ( false !== strpos( $document['role'], 'スピーカー' ) ) {
-			$document['items'][] = 'Tシャツ（緑） - 要サイズ確認';
+			$document['items'][] = 'ガジェットポーチ';
 		}
 		
 		return $document;

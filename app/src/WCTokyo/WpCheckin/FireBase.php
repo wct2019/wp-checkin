@@ -1,7 +1,6 @@
 <?php
 
-namespace app\src\WCTokyo\WpCheckin;
-
+namespace src\WCTokyo\WpCheckin;
 
 use Google\Cloud\Firestore\FirestoreClient;
 use Hametuha\SingletonPattern\Singleton;

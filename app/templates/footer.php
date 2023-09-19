@@ -8,7 +8,7 @@
 
 		<p class="text-center">
 			<span class="navbar-text">
-				&copy; 2019 <a href="https://2019.tokyo.wordcamp.org/">WordCamp Tokyo 2019</a>
+				&copy; 2023 <a href="https://tokyo.wordcamp.org/2023">WordCamp Tokyo 2019</a>
 			</span>
 		</p>
 	</div>
