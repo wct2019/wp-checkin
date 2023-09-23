@@ -2,7 +2,7 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use src\WCTokyo\WpCheckin\TicketApi;
+use WCTokyo\WpCheckin\TicketApi;
 
 // Home.
 $app->get('/', function (Request $request, Response $response, array $args) {
@@ -48,6 +48,13 @@ $app->get('/stats', function (Request $request, Response $response, array $args)
 	return $this->renderer->render($response, 'stats.phtml', [] );
 });
 $app->post( '/stats', [ TicketApi::get_instance(), 'handle_csv' ] );
+
+// Tickets Import
+$app->get('/import', function (Request $request, Response $response, array $args) {
+	// Render index view
+	return $this->renderer->render($response, 'import.phtml', [] );
+});
+$app->post( '/import', [ TicketApi::get_instance(), 'import_csv' ] );
 
 // Handle github hook.
 $app->post('/payload', function ( Request $request, Response $response, array $args ) {

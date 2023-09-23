@@ -3,21 +3,19 @@
 #------------
 FROM node:18-slim AS node
 
-ENV TZ=Asia/Tokyo
+ENV TZ Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && echo 'Asia/Tokyo' > /etc/timezone
 
-#COPY --chown=33:33 ./package.json /app/
-#COPY --chown=33:33 ./webpack.config.js /app/
-#COPY --chown=33:33 ./gulpfile.js /app/
-COPY --chown=33:33 . /app
-#COPY --chown=33:33 ./app/assets /app/assets
-#COPY --chown=33:33 ./app/bin /app/bin
-#COPY --chown=33:33 ./app/includes /app/includes
-#COPY --chown=33:33 ./app/public /app/public
-#COPY --chown=33:33 ./app/src /app/src
-#COPY --chown=33:33 ./app/templates /app/templates
+VOLUME ["/app"]
+COPY --chown=www-data:www-data ./package.json /app/
+COPY --chown=www-data:www-data ./webpack.config.js /app/
+COPY --chown=www-data:www-data ./gulpfile.js /app/
+
 
 WORKDIR /app
+RUN set -xe && \
+    usermod -G www-data,staff www-data && \
+    chown -R www-data /app
 
 RUN set -xe && \
     npm install -g npm@10 && \
@@ -30,7 +28,7 @@ RUN set -xe && \
 #------------
 FROM php:7.4-fpm-alpine AS app
 
-RUN addgroup -S nginx && adduser -S nginx -G nginx
+#RUN addgroup -S nginx && adduser -S nginx -G nginx
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_HOME=/composer \
@@ -48,13 +46,25 @@ RUN set -xe && \
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+VOLUME ["/app"]
+
 WORKDIR /app
 
-COPY --from=node --chown=33:33 /app /app
-COPY --chown=33:33 ./composer.json .
-COPY --chown=33:33 ./php.ini /usr/local/etc/php/php.ini
+COPY --from=node /app /app
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
+
+COPY --chown=www-data:www-data ./composer.json .
+COPY --chown=www-data:www-data ./php.ini /usr/local/etc/php/php.ini
+
+#RUN set -xe && \
+#    usermod -G www-data,staff www-data && \
+#    chown -R www-data:www-data /app
 
 RUN set -xe && \
+    composer clearcache && \
     composer install
 
 EXPOSE 9000

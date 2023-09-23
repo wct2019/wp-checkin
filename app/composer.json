@@ -1,12 +1,16 @@
 {
     "name": "wct2019/wp-checkin",
-    "description": "A Web form for WordCamp Tokyo 2019 reception.",
+    "description": "A Web form for WordCamp Tokyo 2023 reception.",
     "type": "project",
     "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "fumikito",
             "email": "guy@hametuha.com"
+        },
+        {
+            "name": "ikuko-k(Docker Environment Version)",
+            "email": "ichan.kai@gmail.com"
         }
     ],
     "minimum-stability": "stable",
@@ -23,18 +27,11 @@
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
-        "psr-4": {
+        "psr-0": {
             "WCTokyo\\WpCheckin\\": "src/"
-        },
-        "classmap": [
-            "/app/src/WCTokyo/WpCheckin/FireBase.php",
-            "/app/src/WCTokyo/WpCheckin/TicketApi.php"
-        ]
+        }
     },
     "config": {
         "process-timeout": 0
-    },
-    "scripts": {
-        "start": "php -S localhost:8080 -t public index.php"
     }
 }

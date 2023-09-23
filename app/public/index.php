@@ -17,6 +17,13 @@ session_start();
 $settings = require __DIR__ . '/../includes/settings.php';
 $app = new \Slim\App( $settings );
 
+error_reporting(E_ALL);
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (error_reporting() & $severity) {
+        throw new \ErrorException($message, 0, $severity, $file, $line);
+    }
+});
+
 // Set up dependencies
 require __DIR__ . '/../includes/dependencies.php';
 

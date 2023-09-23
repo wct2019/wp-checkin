@@ -1,7 +1,7 @@
 {
   "name": "wp-checkin",
   "version": "1.0.0",
-  "description": "A checkinf form for WordCamp Tokyo 2019",
+  "description": "A checkin form for WordCamp Tokyo 2023",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -54,6 +54,6 @@
     "react-dom": "^16.14.0",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.47.0",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^4.0.3"
   }
 }

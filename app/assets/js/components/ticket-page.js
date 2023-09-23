@@ -129,7 +129,7 @@ export class Ticket extends Component {
               <tbody>
                 <tr>
                   <th>姓名</th>
-                  <td>{ticket.familyname} {ticket.givenname}</td>
+                  <td>{ticket.last_name} {ticket.first_name}</td>
                 </tr>
                 <tr>
                   <th>種別</th>
@@ -142,13 +142,13 @@ export class Ticket extends Component {
                 <tr>
                   <th>チケット種別</th>
                   <td>
-                    {ticket.category}
+                    {ticket.ticket_type}
                     <small className={ 'Publish' !== ticket.status ? 'text-danger' : 'text-success' }>({ticket.status})</small>
                   </td>
                 </tr>
                 <tr>
-                  <th>20歳以上</th>
-                  <td>{ ticket.u20 ? ticket.u20 : <span className='text-danger'>いいえ</span>}</td>
+                  <th>食事制限</th>
+                  <td>{ ticket.meal_preference ? ticket.meal_preference : <span className='text-danger'>いいえ</span>}</td>
                 </tr>
                 <tr>
                   <th>チェックイン</th>

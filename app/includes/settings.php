@@ -10,10 +10,12 @@ return [
             'template_path' => __DIR__ . '/../templates/',
         ],
 
+        'logError' => true,
+        'logErrorDetails' => true,
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',
-            'path' => __DIR__ . '/../logs/app/app.log',
+            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],
