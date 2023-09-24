@@ -26,22 +26,15 @@ class TicketApi extends Singleton
      */
     public function handle_search(Request $request, Response $response, array $args)
     {
-        $log = new Logger('name');
-        $log->pushHandler(new StreamHandler(__DIR__.'/debug.log', Logger::DEBUG));
-
         try {
             $query = $request->getQueryParam('s');
             if (!$query) {
                 throw new \Exception('検索キーワードが指定されていません。', 404);
             }
             $query = explode(' ', str_replace('　', ' ', $query));
-            $log->debug(var_export($query, true));
-//            $result = $this->search($query);
             $result = $this->search_by_name_and_email($query);
-            $log->debug(var_export($result, true));
             return $response->withJson($result);
         } catch (\Exception $e) {
-            $log->error($e->getCode() . ':' . $e->getMessage());
             return $response->withJson([], 404);
         }
     }
@@ -65,7 +58,7 @@ class TicketApi extends Singleton
             if (!$queries) {
                 throw new \Exception('No queries set.');
             }
-            $result = $this->search($queries);
+            $result = $this->search_by_name_and_email($queries);
             if (1 !== count($result)) {
                 throw new \Exception('Not found.');
             }
@@ -143,26 +136,20 @@ class TicketApi extends Singleton
      */
     private function search_by_name_and_email($query_params)
     {
-        $log = new Logger('name');
-        $log->pushHandler(new StreamHandler(__DIR__.'/debug.log', Logger::DEBUG));
-
         $tickets = [];
         $ticketsRef = FireBase::get_instance()->db()->collection('Tickets');
         $first_name_query = $ticketsRef->where('first_name', 'in', $query_params);
         foreach ($first_name_query->documents() as $document) {
             $tickets[] = $this->convert_to_array($document);
         }
-        $log->debug(var_export($tickets, true));
         $last_name_query = $ticketsRef->where('last_name', 'in', $query_params);
         foreach ($last_name_query->documents() as $document) {
             $tickets[] = $this->convert_to_array($document);
         }
-        $log->debug(var_export($tickets, true));
         $email_query = $ticketsRef->where('email', 'in', $query_params);
         foreach ($email_query->documents() as $document) {
             $tickets[] = $this->convert_to_array($document);
         }
-        $log->debug(var_export($tickets, true));
         return $tickets;
     }
 
@@ -195,9 +182,6 @@ class TicketApi extends Singleton
      */
     public function handle_post(Request $request, Response $response, array $args)
     {
-        $log = new Logger('name');
-        $log->pushHandler(new StreamHandler(__DIR__.'/debug.log', Logger::DEBUG));
-
         try {
             $document = $this->get_reference($args['ticket_id']);
             if (!$document->snapshot()->exists()) {
@@ -211,7 +195,6 @@ class TicketApi extends Singleton
             ]);
             return $response->withJson($this->add_items($this->convert_to_array($document->snapshot())));
         } catch (\Exception $e) {
-            $log->error($e->getCode() . ':' . $e->getMessage());
             return $response->withJson([
                 'message' => $e->getMessage(),
             ], $e->getCode());

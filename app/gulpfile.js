@@ -7,7 +7,6 @@ const plumber = require('gulp-plumber');
 const eslint = require('gulp-eslint');
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
-const mozjpeg = require('imagemin-mozjpeg');
 const named = require('vinyl-named');
 const notify = require('gulp-notify');
 const postcss = require('gulp-postcss');
@@ -88,6 +87,12 @@ gulp.task('js', gulp.parallel(
 // Image min
 gulp.task('imagemin', function () {
     return gulp.src('./assets/img/**/*')
+        .pipe(imagemin([
+            pngquant({
+                quality: [0.65, 0.8],
+                speed: 1
+            })
+        ]))
         .pipe(gulp.dest('./public/assets/img'));
 });
 
