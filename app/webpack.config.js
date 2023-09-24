@@ -1,4 +1,9 @@
 module.exports = {
+	entry: './assets/js/app.js',
+	output: {
+		path: `${__dirname}/public/assets/js`,
+		filename: 'app.js'
+	},
 	mode: 'production',
 	module: {
 		rules: [

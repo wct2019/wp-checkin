@@ -73,9 +73,10 @@ export class SearchForm extends Component {
             <tbody>
               { this.state.tickets.map( ( ticket, index ) => {
                 console.log(ticket);
+                const url = `/qr/{ticket.id}`;
                 return (
                   <tr ref={ ticket.id }>
-                    <th><a href="/qr/{ ticket.id }">{ticket.attendee_id}</a></th>
+                    <th><a href={url}>{ticket.attendee_id}</a></th>
                     <td>{ticket.last_name} {ticket.first_name}</td>
                     <td>{ticket.role}</td>
                     <td>{ticket.email}</td>

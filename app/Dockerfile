@@ -1,26 +1,29 @@
 #------------
 # node
 #------------
-FROM node:18-slim AS node
+FROM node:18-alpine AS node
 
 ENV TZ Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && echo 'Asia/Tokyo' > /etc/timezone
 
 VOLUME ["/app"]
+
+COPY --chown=www-data:www-data . /app
 COPY --chown=www-data:www-data ./package.json /app/
 COPY --chown=www-data:www-data ./webpack.config.js /app/
 COPY --chown=www-data:www-data ./gulpfile.js /app/
 
 
 WORKDIR /app
-RUN set -xe && \
-    usermod -G www-data,staff www-data && \
-    chown -R www-data /app
+#RUN set -xe && \
+#    usermod -G www-data,staff www-data && \
+#    chown -R www-data /app
 
 RUN set -xe && \
     npm install -g npm@10 && \
     npm install && \
-    npm start
+    npm start && \
+    npm run build
 
 
 #------------
@@ -50,14 +53,14 @@ VOLUME ["/app"]
 
 WORKDIR /app
 
-COPY --from=node /app /app
+COPY --from=node --chown=www-data:www-data /app /app
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 
 COPY --chown=www-data:www-data ./composer.json .
-COPY --chown=www-data:www-data ./php.ini /usr/local/etc/php/php.ini
+COPY ./php.ini /usr/local/etc/php/
 
 #RUN set -xe && \
 #    usermod -G www-data,staff www-data && \
