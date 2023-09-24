@@ -47,7 +47,7 @@ class TicketApi extends Singleton
     }
 
     /**
-     * Handle CSV request.
+     * Handle QR request.
      *
      * @param Request $request
      * @param Response $response

@@ -31,7 +31,7 @@ $app->delete( '/ticket/{ticket_id}/detail', [ TicketApi::get_instance(), 'handle
 // QR code
 $app->get( '/qr/{ticket_id}', function(Request $request, Response $response, array $args) {
 	// Render QR view.
-	$alt = sprintf( 'https://2019.tokyo.wp-checkin.com/ticket/%d', $args['ticket_id'] );
+	$alt = sprintf( 'http://localhost/ticket/%d', $args['ticket_id'] );
 	$url = TicketApi::get_instance()->generate_qr( $alt );
 	return $this->renderer->render($response, 'qr.phtml', [
 		'url' => $url,

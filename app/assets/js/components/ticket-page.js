@@ -125,7 +125,7 @@ export class Ticket extends Component {
         ) : ( this.state.ticket ? (
           <>
             <table className='table'>
-              <caption> Ticket #{ ticket.id } </caption>
+              <caption> Ticket #{ ticket.attendee_id } </caption>
               <tbody>
                 <tr>
                   <th>姓名</th>
@@ -148,14 +148,14 @@ export class Ticket extends Component {
                 </tr>
                 <tr>
                   <th>食事制限</th>
-                  <td>{ ticket.meal_preference ? ticket.meal_preference : <span className='text-danger'>いいえ</span>}</td>
+                  <td>{ ticket.meal_preference}</td>
                 </tr>
                 <tr>
                   <th>チェックイン</th>
-                  <td>{ ticket.checkedin ? (
+                  <td>{ ticket.checked_in_at ? (
                     <span>
                       <i className='fas fa-check text-success'></i>&nbsp;
-                      { ticket.checkedin }
+                      { ticket.checked_in_at }
                     </span>
                   ) : '---' }</td>
                 </tr>
@@ -164,13 +164,13 @@ export class Ticket extends Component {
             <div className='text-center'>
               { ( 'Publish' !== ticket.status ) ? (
                 <div className='alert alert-warning'>これは取り消されたチケットです。</div>
-              ) : ( ticket.checkedin ? (
+              ) : ( ticket.checked_in_at ? (
                 <button className='btn btn-link' onClick={ e => this.handleCancel() }>取り消し</button>
               ) : (
                 <button className='btn btn-lg btn-outline-success' onClick={ e => this.handleCheckin() }>チェックイン</button>
               ) ) }
             </div>
-            { ticket.checkedin ? (
+            { ticket.checked_in_at ? (
               <div className='ticket-checked'>
                 <hr />
                 <h3 className='ticket-checked-title'>お渡しするもの</h3>
