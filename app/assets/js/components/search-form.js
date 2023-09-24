@@ -85,6 +85,9 @@ export class SearchForm extends Component {
                                                 onClick={e => this.setState({active: ticket.id})}>表示
                                         </button>
                                     </td>
+                                    <td>
+                                        <a href={url}><button className='btn btn-danger'>QRコード表示</button></a>
+                                    </td>
                                 </tr>
                             );
                         })}
