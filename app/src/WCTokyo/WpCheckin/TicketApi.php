@@ -40,6 +40,33 @@ class TicketApi extends Singleton
     }
 
     /**
+     * QRコード画像をチケットIDから取得
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return void
+     */
+    public function handle_qrcode(Request $request, Response $response, array $args)
+    {
+        try {
+            $param = $args['attendee_id'];
+            $ticket = $this->search_by_attendee_id($param);
+
+            $url = sprintf('%s/ticket/%s', getenv('SERVER_HOST'), $ticket['id']);
+
+        } catch (\Exception $e) {
+            $url = getenv('SERVER_HOST');
+        } finally {
+            $src = str_replace('&amp;', '&', $this->generate_qr($url));
+            $content = file_get_contents($src);
+            header('Content-Type: image/png');
+            echo $content;
+            exit;
+        }
+    }
+
+    /**
      * Handle QR request.
      *
      * @param Request $request
@@ -63,9 +90,9 @@ class TicketApi extends Singleton
                 throw new \Exception('Not found.');
             }
             list($data) = $result;
-            $url = sprintf('http://localhost/ticket/%d', $data['id']);
+            $url = sprintf('%s/ticket/%s', getenv('SERVER_HOST'), $data['id']);
         } catch (\Exception $e) {
-            $url = 'http://localhost';
+            $url = getenv('SERVER_HOST');
         } finally {
             $src = str_replace('&amp;', '&', $this->generate_qr($url));
             $content = file_get_contents($src);
@@ -151,6 +178,23 @@ class TicketApi extends Singleton
             $tickets[] = $this->convert_to_array($document);
         }
         return $tickets;
+    }
+
+    /**
+     * Search tickets from Firestore
+     *
+     * @param $query_params
+     * @return array
+     */
+    private function search_by_attendee_id($query_params)
+    {
+        $tickets = [];
+        $ticketsRef = FireBase::get_instance()->db()->collection('Tickets');
+        $first_name_query = $ticketsRef->where('attendee_id', '=', $query_params);
+        foreach ($first_name_query->documents() as $document) {
+            $tickets[] = $this->convert_to_array($document);
+        }
+        return $tickets[0];
     }
 
     /**
@@ -453,16 +497,16 @@ class TicketApi extends Singleton
         // Add role.
         $role = '一般参加';
         foreach ([
-                     'wctokyo2023-organizer' => 'スタッフ',
-                     'wctokyo2023-volunteer' => 'ボランティア',
-                     'wctokyo2023-speaker' => 'スピーカー',
+                     getenv('WORDCAMP_SHORT_NAME') . '-organizer' => 'スタッフ',
+                     getenv('WORDCAMP_SHORT_NAME') . '-volunteer' => 'ボランティア',
+                     getenv('WORDCAMP_SHORT_NAME') . '-speaker' => 'スピーカー',
                  ] as $coupon => $label) {
             if (isset($data['coupon']) && false !== strpos($data['coupon'], $coupon)) {
                 $role = $label;
                 break;
             }
         }
-        if (isset($data['coupon']) && $role === '一般参加' && strpos($data['coupon'], 'wctokyo2023-') !== false) {
+        if (isset($data['coupon']) && $role === '一般参加' && strpos($data['coupon'], (getenv('WORDCAMP_SHORT_NAME') . '-')) !== false) {
             $role = 'スポンサー';
         }
         if (false !== strpos($data['ticket_type'], 'マイクロスポンサー')) {

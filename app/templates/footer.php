@@ -8,7 +8,7 @@
 
 		<p class="text-center">
 			<span class="navbar-text">
-				&copy; 2023 <a href="https://tokyo.wordcamp.org/2023">WordCamp Tokyo 2023</a>
+				&copy; 2023 <a href="https://tokyo.wordcamp.org/2023"><?php echo getenv('WORDCAMP_NAME'); ?></a>
 			</span>
 		</p>
 	</div>

@@ -2,7 +2,7 @@
 <html lang="ja" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="utf-8"/>
-    <title>WP Checkin - Tokyo 2023</title>
+    <title>WP Checkin - <?php echo getenv('WORDCAMP_NAME'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="A Reception Tool for WordCamp Tokyo 2023" />
 
@@ -18,7 +18,7 @@
 <nav class="navbar navbar-dark bg-success">
 	<a class="navbar-brand" href="#">
 		<img src="/assets/img/wapuu.png" width="30" height="30" alt="Wapuu">
-		WordCamp Tokyo 2023 Reception
+        <?php echo getenv('WORDCAMP_NAME'); ?> Reception
 	</a>
 </nav>
 	<div class="container container-main">

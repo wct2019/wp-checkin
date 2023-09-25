@@ -41,6 +41,8 @@ $app->get('/qr/{ticket_id}', function (Request $request, Response $response, arr
     ]);
 });
 
+$app->get('/qrcode/{attendee_id}', [TicketApi::get_instance(), 'handle_qrcode']);
+
 // Do QR request.
 $app->get('/qrcode', [TicketApi::get_instance(), 'handle_qr']);
 
