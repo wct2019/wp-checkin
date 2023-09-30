@@ -6,8 +6,6 @@ FROM node:18-alpine AS node
 ENV TZ Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && echo 'Asia/Tokyo' > /etc/timezone
 
-VOLUME ["/app"]
-
 COPY . /app
 COPY ./package.json /app/
 COPY ./webpack.config.js /app/
@@ -44,8 +42,6 @@ RUN set -xe && \
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-VOLUME ["/app"]
-
 WORKDIR /app
 
 COPY --from=node /app /app
@@ -54,12 +50,12 @@ COPY --from=node /usr/local/lib /usr/local/lib
 COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 
-COPY ./composer.json .
+COPY ./composer.json /app/
 COPY ./php.ini /usr/local/etc/php/
 
 RUN set -xe && \
     composer clearcache && \
     composer install
 
-EXPOSE 8080
+EXPOSE 8000
 CMD ["php-fpm"]
