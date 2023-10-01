@@ -2,7 +2,7 @@
 
 namespace WCTokyo\WpCheckin;
 
-//use WCTokyo\WpCheckin\FireBase;
+use WCTokyo\WpCheckin\FireBase;
 use Google\Cloud\Firestore\DocumentReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Google\Cloud\Firestore\FirestoreClient;

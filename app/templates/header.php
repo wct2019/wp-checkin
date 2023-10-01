@@ -16,7 +16,7 @@
 <body data-spy="scroll" data-target="#navbar-main">
 
 <nav class="navbar navbar-dark bg-success">
-	<a class="navbar-brand" href="#">
+	<a class="navbar-brand" href="<?php echo getenv('SERVER_HOST'); ?>)">
 		<img src="/assets/img/wapuu.png" width="30" height="30" alt="Wapuu">
         <?php echo getenv('WORDCAMP_NAME'); ?> Reception
 	</a>

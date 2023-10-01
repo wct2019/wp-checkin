@@ -9,7 +9,7 @@ use WCTokyo\WpCheckin\TicketApi;
 $app->get('/', function (Request $request, Response $response, array $args) {
     // Render index view
     return $this->renderer->render($response, 'index.phtml', [
-        'versions' => '1.0.0',
+        'versions' => '1.1.0',
     ]);
 });
 
