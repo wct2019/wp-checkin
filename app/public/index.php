@@ -22,6 +22,7 @@ set_error_handler(function ($severity, $message, $file, $line) {
 });
 
 $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
+    'path' => ['/'],
     'ignore' => ['/qrcode'],
     'secure' => true,
     'relaxed' => [
