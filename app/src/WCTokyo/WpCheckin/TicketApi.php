@@ -35,7 +35,7 @@ class TicketApi extends Singleton
             $result = $this->search_by_name_and_email($query);
             return $response->withJson($result);
         } catch (\Exception $e) {
-            return $response->withJson([], 404);
+            return $response->withJson($e);
         }
     }
 
@@ -163,21 +163,27 @@ class TicketApi extends Singleton
      */
     private function search_by_name_and_email($query_params)
     {
-        $tickets = [];
-        $ticketsRef = FireBase::get_instance()->db()->collection('Tickets');
-        $first_name_query = $ticketsRef->where('first_name', 'in', $query_params);
-        foreach ($first_name_query->documents() as $document) {
-            $tickets[] = $this->convert_to_array($document);
+        try {
+            $tickets = [];
+            $ticketsRef = FireBase::get_instance()->db()->collection('Tickets');
+            if (!$ticketsRef) throw new \Exception('FireStoreに接続できませんでした', 500);
+
+            $first_name_query = $ticketsRef->where('first_name', 'in', $query_params);
+            foreach ($first_name_query->documents() as $document) {
+                $tickets[] = $this->convert_to_array($document);
+            }
+            $last_name_query = $ticketsRef->where('last_name', 'in', $query_params);
+            foreach ($last_name_query->documents() as $document) {
+                $tickets[] = $this->convert_to_array($document);
+            }
+            $email_query = $ticketsRef->where('email', 'in', $query_params);
+            foreach ($email_query->documents() as $document) {
+                $tickets[] = $this->convert_to_array($document);
+            }
+            return $tickets;
+        } catch(\Exception $e) {
+            return null;
         }
-        $last_name_query = $ticketsRef->where('last_name', 'in', $query_params);
-        foreach ($last_name_query->documents() as $document) {
-            $tickets[] = $this->convert_to_array($document);
-        }
-        $email_query = $ticketsRef->where('email', 'in', $query_params);
-        foreach ($email_query->documents() as $document) {
-            $tickets[] = $this->convert_to_array($document);
-        }
-        return $tickets;
     }
 
     /**
@@ -487,11 +493,7 @@ class TicketApi extends Singleton
      */
     public function convert_to_array($document)
     {
-        $log = new Logger('name');
-        $log->pushHandler(new StreamHandler(__DIR__.'/debug.log', Logger::DEBUG));
-
         $data = $document->data();
-        $log->debug(var_export($data, true));
 
         $data['id'] = $document->id();
         // Add role.
@@ -523,7 +525,6 @@ class TicketApi extends Singleton
             }
             $sorted[$key] = $val;
         }
-        $log->debug(var_export($sorted, true));
         return $sorted;
     }
 

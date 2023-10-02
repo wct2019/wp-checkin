@@ -23,6 +23,11 @@ set_error_handler(function ($severity, $message, $file, $line) {
 
 $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
     'ignore' => ['/qrcode'],
+    'secure' => true,
+    'relaxed' => [
+        'wp-checkin-2023.802wpmu.tokyo',
+        'headers'
+    ],
     'users' => [
         'wctokyo2023' => getenv('WCT2023_PASSWD'),
     ]
