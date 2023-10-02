@@ -21,7 +21,8 @@
         "monolog/monolog": "^1.25",
         "hametuha/singleton-pattern": "^1.2",
         "kreait/firebase-php": "^6.9.6",
-        "google/cloud-firestore": "v1.37.0"
+        "google/cloud-firestore": "v1.37.0",
+        "tuupola/slim-basic-auth": "^3.3.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

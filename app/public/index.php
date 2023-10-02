@@ -21,6 +21,14 @@ set_error_handler(function ($severity, $message, $file, $line) {
     }
 });
 
+$app->add(new Tuupola\Middleware\HttpBasicAuthentication([
+    'ignore' => ['/qrcode'],
+    'users' => [
+        'wctokyo2023' => getenv('WCT2023_PASSWD'),
+    ]
+]));
+
+
 // Set up dependencies
 require __DIR__ . '/../includes/dependencies.php';
 
