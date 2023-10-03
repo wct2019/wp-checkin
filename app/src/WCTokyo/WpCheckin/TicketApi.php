@@ -2,7 +2,7 @@
 
 namespace WCTokyo\WpCheckin;
 
-use WCTokyo\WpCheckin\FireBase;
+
 use Google\Cloud\Firestore\DocumentReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Google\Cloud\Firestore\FirestoreClient;
@@ -12,6 +12,7 @@ use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use WCTokyo\WpCheckin\FireBase;
 
 class TicketApi extends Singleton
 {
@@ -400,21 +401,19 @@ class TicketApi extends Singleton
      * @param $args
      * @return mixed
      */
-    public function import_csv(Request $request, Response $response, $args)
+    public function import_csv(Request $request, Response $response, array $args)
     {
         try {
-            $project_id = 'wp-checkin-2023';
-            $db = new FirestoreClient(['projectId' => $project_id]);
-            $ticket_ref = $db->collection('Tickets');
+            $ticket_ref = FireBase::getInstance()->db()->collection('Tickets');
 
             $uploaded_files = $request->getUploadedFiles();
             if (empty($uploaded_files['ticket-csv'])) {
-                throw new \Exception('CSVファイルが指定されていません。', 400);
+                throw new \RuntimeException('CSVファイルが指定されていません。', 400);
             }
 
             $file = $uploaded_files['ticket-csv'];
             if ('text/csv' !== $file->getClientMediaType()) {
-                throw new \Exception('CSVファイルの形式が不正です。', 400);
+                throw new \RuntimeException('CSVファイルの形式が不正です。', 400);
             }
 
             $fp = new \SplFileObject($file->file);
@@ -443,10 +442,11 @@ class TicketApi extends Singleton
                 $counter++;
             }
 
-            return $response->withStatus(200)->withHeader('Content-Type', 'text/html')->write(`Imported {$counter} tickets from CSV File`);
+            return $response->withStatus(200)
+                ->withHeader('Content-Type', 'text/html')
+                ->write(`Imported {$counter} tickets from CSV File`);
 
         } catch (\Exception $exception) {
-
             return $response->withStatus($exception->getCode())
                 ->withHeader('Content-Type', 'text/html')
                 ->write($exception->getMessage());

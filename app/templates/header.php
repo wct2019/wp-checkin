@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>WP Checkin - <?php echo getenv('WORDCAMP_NAME'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="description" content="A Reception Tool for WordCamp Tokyo 2023" />
+    <meta name="description" content="A Reception Tool for <?php echo getenv('WORDCAMP_NAME'); ?>" />
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link href='/assets/css/style.css?s=<?= filemtime(dirname(__DIR__) . '/public/assets/css/style.css') ?>'
