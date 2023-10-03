@@ -404,7 +404,7 @@ class TicketApi extends Singleton
     public function import_csv(Request $request, Response $response, array $args)
     {
         try {
-            $ticket_ref = FireBase::getInstance()->db()->collection('Tickets');
+            $ticket_ref = FireBase::get_instance()->db()->collection('Tickets');
 
             $uploaded_files = $request->getUploadedFiles();
             if (empty($uploaded_files['ticket-csv'])) {
