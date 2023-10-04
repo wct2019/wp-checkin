@@ -542,10 +542,10 @@ class TicketApi extends Singleton
             'トートバッグ',
         ];
         if (false !== strpos($document['role'], 'スポンサー')) {
-            $document['items'][] = 'タンブラー';
+            $document['items'][] = 'タンブラー(@控室)';
         }
         if (false !== strpos($document['role'], 'スピーカー')) {
-            $document['items'][] = 'ガジェットポーチ';
+            $document['items'][] = 'ガジェットポーチ(@控室)';
         }
 
         return $document;
