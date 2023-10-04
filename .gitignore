@@ -5,3 +5,4 @@
 /public/.well-known
 .env
 /wp-checkin-2023-firebase-adminsdk-8mk70-443ebaa225.json
+docker-compose.production.yml
