@@ -1,0 +1,38 @@
+{
+    "name": "wct2019/wp-checkin",
+    "description": "A Web form for WordCamp Tokyo 2023 reception.",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "guy@hametuha.com"
+        },
+        {
+            "name": "ikuko-k(Docker Environment Version)",
+            "email": "ichan.kai@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4",
+        "slim/slim": "^3.12.5",
+        "slim/php-view": "^2.2",
+        "monolog/monolog": "^1.25",
+        "hametuha/singleton-pattern": "^1.2",
+        "kreait/firebase-php": "^6.9.6",
+        "google/cloud-firestore": "v1.37.0",
+        "tuupola/slim-basic-auth": "^3.3.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-0": {
+            "WCTokyo\\WpCheckin\\": "src/"
+        }
+    },
+    "config": {
+        "process-timeout": 0
+    }
+}

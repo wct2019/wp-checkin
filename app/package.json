@@ -1,0 +1,60 @@
+{
+  "name": "wp-checkin",
+  "version": "1.0.0",
+  "description": "A checkin form for WordCamp Tokyo 2023",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp default",
+    "watch": "gulp watch",
+    "gulp": "NODE_OPTIONS='--openssl-legacy-provider' gulp",
+    "fix": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wct2019/wp-checkin.git"
+  },
+  "keywords": [
+    "wordpress"
+  ],
+  "author": "fumikito",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/wct2019/wp-checkin/issues"
+  },
+  "homepage": "https://github.com/wct2019/wp-checkin#readme",
+  "devDependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@babel/register": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
+    "@wordpress/eslint-plugin": "^15.1.0",
+    "autoprefixer": "^10.4.16",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.3.0",
+    "classnames": "^2.3.2",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-notify": "^4.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-dart-sass": "^1.1.0",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "sass": "^1.67.0",
+    "imagemin": "^8.0.1",
+    "imagemin-pngquant": "^9.0.2",
+    "merge-stream": "^2.0.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "vinyl-named": "^1.1.0",
+    "webpack": "^5.88.2",
+    "webpack-stream": "^5.2.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
