@@ -152,6 +152,10 @@ export class Ticket extends Component {
                                 <td>{ticket.meal_preference}</td>
                             </tr>
                             <tr>
+                                <th>写真撮影許可</th>
+                                <td>{ticket.agreement}</td>
+                            </tr>
+                            <tr>
                                 <th>チェックイン</th>
                                 <td>{ticket.checked_in_at ? (
                                     <span>
