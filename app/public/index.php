@@ -30,7 +30,7 @@ $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
         'headers'
     ],
     'users' => [
-        getenv('WCT_ID') => getenv('WCT_PASSWD'),
+        'wctokyo2023' => getenv('WCT_PASSWD'),
     ]
 ]));
 
