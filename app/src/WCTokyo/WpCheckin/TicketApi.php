@@ -516,11 +516,9 @@ class TicketApi extends Singleton
         $data['role'] = $role;
 
         // Add photo agreements
-        $agreement = $document->agreement();
-        if ($agreement === '' || $agreement === null) {
-            $agreement = 'はい / Yes';
+        if ($data['agreement'] === '' || $data['agreement'] === null) {
+            $data['agreement'] = 'はい / Yes';
         }
-        $data['agreement'] = $agreement;
 
         $sorted = [
             'last_name' => $data['last_name'],
