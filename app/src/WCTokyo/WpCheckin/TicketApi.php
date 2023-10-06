@@ -479,9 +479,9 @@ class TicketApi extends Singleton
         $document = $this->get_reference($ticket_id)->snapshot();
         if ($document->exists()) {
             return $this->convert_to_array($document);
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -515,10 +515,19 @@ class TicketApi extends Singleton
             $role = 'マイクロスポンサー';
         }
         $data['role'] = $role;
+
+        // Add photo agreements
+        $agreement = $document->agreement();
+        if ($agreement === '' || $agreement === null) {
+            $agreement = 'はい / Yes';
+        }
+        $data['agreement'] = $agreement;
+
         $sorted = [
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
         ];
+
         foreach ($data as $key => $val) {
             if (in_array($key, ['last_name', 'first_name'])) {
                 continue;
