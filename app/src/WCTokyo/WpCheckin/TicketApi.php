@@ -2,7 +2,6 @@
 
 namespace WCTokyo\WpCheckin;
 
-
 use Google\Cloud\Firestore\DocumentReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Google\Cloud\Firestore\FirestoreClient;
