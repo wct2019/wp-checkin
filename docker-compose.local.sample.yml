@@ -1,0 +1,27 @@
+services:
+  app:
+    build: ./app
+    volumes:
+      - app:/app
+      - vendor:/app/vendor
+      - node_modules:/app/node_modules
+    environment:
+      SERVER_HOST: http://localhost
+      GCP_HOST: YOUR FIREBASE HOST NAME
+      FIREBASE_SECRET_KEY_FILE_PATH: YOUR FIBEBASE ACCESS KEY FILE
+      WORDCAMP_NAME: YOUR WORDCAMP NAME
+      WORDCAMP_SHORT_NAME: YOUR WORDCAMP NICKNAME
+      WORDCAMP_OFFICIAL_SITE_URL: YOUR WORDCAMP OFFICIAL SITE URL
+      BASIC_AUTH: 0
+  web:
+    build: ./web
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    volumes:
+      - app:/app
+volumes:
+  app:
+  vendor:
+  node_modules:

@@ -111,3 +111,7 @@ Firebaseとの連携のため、認証ファイルが必要です。 `wordcampto
 ## ライセンス
 
 GPL 3.0またはそれ以降。
+
+# Docker 環境
+
+Docker 上で動作するようにしたバージョンの詳細については以下を[こちら](DockerEnvironment.md)を参照ください。
